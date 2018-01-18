@@ -16,7 +16,7 @@ const int yMinSensitivity = 200;
 const int yMaxSensitivity = 300;
 
 void motorStop() {
-  //Serial.println("Stopping...");
+  Serial.println("Stopping...");
   digitalWrite(leftM1, LOW);
   digitalWrite(leftM2, LOW);
   digitalWrite(rightM1, LOW);
@@ -71,27 +71,10 @@ void loop() {
   int xVal = analogRead(xPin);
   int yVal = analogRead(yPin);
 
-  if(abs(xVal)>abs(yVal)) {
-    if(xVal > xMinSensitivity && xVal < yMaxSensitivity) {
-      motorStop();
-    }
-    else if(xVal > xMaxSensitivity) {
-      goBackward();
-    }
-    else {
-      goForward();
-    }
-  }
-  else {
-    if(yVal > yMinSensitivity && yVal < yMaxSensitivity) {
-      motorStop();
-    }
-    else if(yVal < yMinSensitivity) {
-      goLeft();
-    }
-    else {
-      goRight();
-    }
-  }
+  if(xVal < xMinSensitivity) { goForward(); }
+  else if(xVal > xMaxSensitivity) { goBackward(); }
+  else if(yVal < yMinSensitivity) { goLeft(); }
+  else if(yVal > yMaxSensitivity) { goRight(); }
+  else  { motorStop();}
 }
 
