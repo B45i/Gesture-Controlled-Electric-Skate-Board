@@ -10,8 +10,8 @@ const int rightM1 = 7;
 const int rightM2 = 6;
 
 //Sensitivity, adjust this for triggering movement
-const int xMinSensitivity = 200;
-const int xMaxSensitivity = 300;
+const int xMinSensitivity = 350;
+const int xMaxSensitivity = 810;
 const int yMinSensitivity = 200;
 const int yMaxSensitivity = 300;
 
@@ -70,6 +70,11 @@ void loop() {
 
   int xVal = analogRead(xPin);
   int yVal = analogRead(yPin);
+
+  Serial.print("X: ");
+  Serial.print(xVal);
+  Serial.print("Y: ");
+  Serial.println(yVal);
 
   if(xVal < xMinSensitivity) { goForward(); }
   else if(xVal > xMaxSensitivity) { goBackward(); }
