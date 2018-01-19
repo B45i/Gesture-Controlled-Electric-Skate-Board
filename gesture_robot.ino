@@ -10,13 +10,13 @@ const int rightM1 = 7;
 const int rightM2 = 6;
 
 //Sensitivity, adjust this for triggering movement
-const int xMinSensitivity = 350;
-const int xMaxSensitivity = 810;
-const int yMinSensitivity = 200;
-const int yMaxSensitivity = 300;
+const int xMinSensitivity = 300;
+const int xMaxSensitivity = 400;
+const int yMinSensitivity = 280;
+const int yMaxSensitivity = 370;
 
 void motorStop() {
-  Serial.println("Stopping...");
+  //Serial.println("Stopping...");
   digitalWrite(leftM1, LOW);
   digitalWrite(leftM2, LOW);
   digitalWrite(rightM1, LOW);
@@ -71,15 +71,11 @@ void loop() {
   int xVal = analogRead(xPin);
   int yVal = analogRead(yPin);
 
-  Serial.print("X: ");
-  Serial.print(xVal);
-  Serial.print("Y: ");
-  Serial.println(yVal);
-
   if(xVal < xMinSensitivity) { goForward(); }
   else if(xVal > xMaxSensitivity) { goBackward(); }
-  else if(yVal < yMinSensitivity) { goLeft(); }
-  else if(yVal > yMaxSensitivity) { goRight(); }
+  else if(yVal < yMinSensitivity) { goRight(); }
+  else if(yVal > yMaxSensitivity) { goLeft(); }
   else  { motorStop();}
 }
+
 
