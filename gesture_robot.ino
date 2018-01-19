@@ -9,6 +9,9 @@ const int leftM2  = 8;
 const int rightM1 = 7;
 const int rightM2 = 6;
 
+const int enLeft = 10;
+const int enRight = 5;
+
 //Sensitivity, adjust this for triggering movement
 const int xMinSensitivity = 300;
 const int xMaxSensitivity = 400;
@@ -25,7 +28,7 @@ void motorStop() {
 
 
 void goForward() {
-  motorStop();
+  //motorStop();
   Serial.println("Going FWD");
   digitalWrite(leftM1, HIGH);
   digitalWrite(leftM2, LOW);
@@ -63,6 +66,12 @@ void setup() {
   pinMode(rightM1, OUTPUT);
   pinMode(rightM2, OUTPUT);
 
+  pinMode(enRight, OUTPUT);
+  pinMode(enLeft, OUTPUT);
+
+  digitalWrite(enLeft, HIGH);
+  digitalWrite(enRight, HIGH);
+
   Serial.begin(9600);
 }
 
@@ -73,9 +82,9 @@ void loop() {
 
   if(xVal < xMinSensitivity) { goForward(); }
   else if(xVal > xMaxSensitivity) { goBackward(); }
-  else if(yVal < yMinSensitivity) { goRight(); }
-  else if(yVal > yMaxSensitivity) { goLeft(); }
+  else if(yVal < yMinSensitivity) { goLeft(); }
+  else if(yVal > yMaxSensitivity) { goRight(); }
   else  { motorStop();}
+  delay(1000);
 }
-
 
