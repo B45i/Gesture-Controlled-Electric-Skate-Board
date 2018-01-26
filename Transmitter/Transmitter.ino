@@ -7,11 +7,10 @@ RH_ASK driver;
 //Sensor pins
 const int xPin = A0;
 const int yPin = A1;
-const int zPin = A2;
 
 //Sensitivity, adjust this for triggering movement
 const int xMinSensitivity = 300;
-const int xMaxSensitivity = 400;
+const int xMaxSensitivity = 375;
 const int yMinSensitivity = 280;
 const int yMaxSensitivity = 370;
 
@@ -27,13 +26,23 @@ void loop() {
   int yVal = analogRead(yPin);
 
   char *msg = "s";
-
-  if(xVal < xMinSensitivity) { msg = "f"; }
-  else if(xVal > xMaxSensitivity) { msg = "b"; }
-  else if(yVal < yMinSensitivity) { msg = "l"; }
-  else if(yVal > yMaxSensitivity) { msg = "r"; }
-  //else  { ;}
-
+  if(xVal < xMinSensitivity) { 
+    msg = "f";
+    Serial.println("FWD");
+  }
+  else if(xVal > xMaxSensitivity) {
+    msg = "b";
+    Serial.println("BWD");
+  }
+  else if(yVal < yMinSensitivity) {
+    msg = "l";
+    Serial.println("Left");
+  }
+  else if(yVal > yMaxSensitivity) {
+    msg = "r";
+    Serial.println("Right");
+  }
+  //else { Serial.println("Stationary"); }
   driver.send((uint8_t *)msg, strlen(msg));
   driver.waitPacketSent();
 }

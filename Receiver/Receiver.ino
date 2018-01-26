@@ -109,10 +109,10 @@ void loop() {
     else if(buf[0] == 0x62) {
       goBackward();
     }
-    else if(buf[0] == 0x72) {
+    else if(buf[0] == 0x6c) {
       goLeft();
     }
-    else if(buf[0] == 0x6c) {
+    else if(buf[0] == 0x72) {
       goRight();
     }
     else {
