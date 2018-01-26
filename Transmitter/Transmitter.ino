@@ -32,7 +32,7 @@ void loop() {
   else if(xVal > xMaxSensitivity) { msg = "b"; }
   else if(yVal < yMinSensitivity) { msg = "l"; }
   else if(yVal > yMaxSensitivity) { msg = "r"; }
-  //else  { motorStop();}
+  //else  { ;}
 
   driver.send((uint8_t *)msg, strlen(msg));
   driver.waitPacketSent();

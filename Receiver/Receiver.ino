@@ -1,6 +1,9 @@
-//Data pin to arduino 11
 #include <RH_ASK.h>
 #include <SPI.h>
+
+//HC-SR04 pins
+const int trigPin  = 3;
+const int echoPin  = 4;
 
 //Motor pins
 const int leftM1  = 9;
@@ -11,7 +14,9 @@ const int rightM2 = 6;
 const int enLeft = 10;
 const int enRight = 5;
 
-RH_ASK driver;
+int minDistance = 15;
+
+RH_ASK driver; //Data pin to arduino 11
 
 
 void motorStop() {
@@ -21,7 +26,6 @@ void motorStop() {
   digitalWrite(rightM1, LOW);
   digitalWrite(rightM2, LOW);
 }
-
 
 void goForward() {
   motorStop();
@@ -55,6 +59,16 @@ void goBackward() {
   digitalWrite(rightM2, HIGH);
 }
 
+int getDistance(int trigPin, int echoPin) {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  int duration = pulseIn(echoPin, HIGH);
+  return  duration*0.034/2;
+}
+
 void setup() {
 
   pinMode(leftM1, OUTPUT);
@@ -67,6 +81,9 @@ void setup() {
   digitalWrite(enLeft, HIGH);
   digitalWrite(enRight, HIGH);
 
+  pinMode(echoPin, INPUT);
+  pinMode(trigPin, OUTPUT);
+
   Serial.begin(9600);
 
   if (!driver.init())
@@ -76,6 +93,12 @@ void setup() {
 void loop() {
   uint8_t buf[1];
   uint8_t buflen = sizeof(buf);
+
+  if(getDistance(trigPin, echoPin) < minDistance) {
+    Serial.println("Obstacle detected");
+    motorStop();
+    return;
+  }
 
   if (driver.recv(buf, &buflen)) {
     int i;
