@@ -14,7 +14,8 @@ const int rightM2 = 6;
 const int enLeft = 10;
 const int enRight = 5;
 
-int minDistance = 15;
+int minDistance = 10;
+int waitTime = 250;
 
 RH_ASK driver; //Data pin to arduino 11
 
@@ -93,27 +94,31 @@ void setup() {
 void loop() {
   uint8_t buf[1];
   uint8_t buflen = sizeof(buf);
-
-  if(getDistance(trigPin, echoPin) < minDistance) {
+  
+  int distance = getDistance(trigPin, echoPin);
+  if(distance < minDistance) {
     Serial.println("Obstacle detected");
     motorStop();
     return;
   }
 
   if (driver.recv(buf, &buflen)) {
-    int i;
 
     if(buf[0] == 0x66) {
       goForward();
+      delay(waitTime);
     }
     else if(buf[0] == 0x62) {
       goBackward();
+      delay(waitTime);
     }
     else if(buf[0] == 0x6c) {
       goLeft();
+      delay(waitTime);
     }
     else if(buf[0] == 0x72) {
       goRight();
+      delay(waitTime);
     }
     else {
       motorStop();
